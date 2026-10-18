@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111510">
+<meta name="description" content="TREVGO is getting ready to bring bike, auto and taxi rides together in one easier way to get around.">
+<title>TREVGO — Move with the city</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;450;500;550;600;650;700;750;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="home">
+<div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+<header class="site-header" id="siteHeader">
+  <a class="wordmark" href="index.html" aria-label="TREVGO home">TREVGO<span>®</span></a>
+  <nav class="desktop-nav" aria-label="Main navigation">
+    <a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="about.html">Why TREVGO</a><a href="#partners">Drive with us</a>
+  </nav>
+  <a class="header-cta" href="contact.html?subject=Launch%20updates">Launch updates <span>↗</span></a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
+</header>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"><a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="about.html">Why TREVGO</a><a href="#partners">Drive with us</a><a href="contact.html?subject=Launch%20updates">Launch updates ↗</a></nav>
+<main>
+  <section class="cinema-hero" id="top" aria-label="TREVGO introduction">
+    <div class="hero-film" aria-hidden="true">
+      <video id="heroVideo" autoplay muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/9935078/pexels-photo-9935078.jpeg?auto=compress&cs=tinysrgb&w=2200">
+        <source src="https://videos.pexels.com/video-files/9935078/9935078-uhd_3840_2160_30fps.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-shade"></div>
+    <div class="hero-topline"><span><i class="live-dot"></i> A better way around town</span><span>Bike, auto and taxi rides</span></div>
+    <div class="hero-title-wrap">
+      <p class="eyebrow eyebrow-light">For the places your day takes you</p>
+      <h1>Move with<br>the <em>city.</em></h1>
+      <p class="hero-deck">Every day is different.<br>Your ride should fit it.</p>
+      <a class="circle-cta" href="#ride-explorer"><span>Find your way</span><b>↘</b></a>
+    </div>
+    <div class="hero-edge-note"><span>A city in motion</span><span>Take a look around <b>↓</b></span></div>
+    <div class="hero-caption"><span class="caption-number">01 / 05</span><span>Every day takes you somewhere different.<br>Let’s make the ride easier.</span></div>
+  </section>
+
+  <section class="intro-section section-shell" id="experience">
+    <div class="section-label reveal"><span>Why we’re building TREVGO</span><span>01 — A better way to get around</span></div>
+    <div class="intro-layout">
+      <h2 class="display-heading reveal">The best part<br>of going <em>somewhere</em><br>is getting there.</h2>
+      <div class="intro-aside reveal"><span class="big-asterisk">✳</span><p>Some days call for a quick ride across town. Other days, you need a little more room. TREVGO is being built for both.</p><a class="line-link" href="about.html">A little about us <span>↗</span></a></div>
+    </div>
+    <div class="intro-bottom"><span>Made for the everyday.</span><span>Ready for what’s next. <b>↗</b></span></div>
+  </section>
+
+  <section class="ride-explorer" id="ride-explorer">
+    <div class="ride-explorer-header section-shell">
+      <p class="eyebrow reveal"><span class="eyebrow-rule"></span> 02 / Find your kind of ride</p>
+      <h2 class="display-heading reveal">Different ways<br>to <em>get there.</em></h2>
+      <p class="ride-explorer-note reveal">Quick trip or a little more room.<br>Choose what suits your day.</p>
+    </div>
+    <div class="ride-stage-wrap">
+      <div class="ride-stage" id="rideStage" data-mode="auto">
+        <div class="ride-stage-image" id="rideStageImage" role="img" aria-label="City traffic in motion" style="background-image:url('https://images.pexels.com/videos/35298890/pexels-photo-35298890.jpeg?auto=compress&cs=tinysrgb&w=2200')"></div>
+        <video class="ride-stage-video" id="rideVideo" muted loop playsinline preload="none" aria-label="Ride footage preview"></video>
+        <div class="ride-stage-shade"></div>
+        <div class="stage-top"><span id="stageIndex">02.02</span><span id="stageMicro">For everyday trips</span><span>A closer look at your ride</span></div>
+        <div class="stage-copy"><p class="eyebrow eyebrow-light" id="stageKicker">Your everyday ride</p><h3 id="stageTitle">The city,<br><em>within reach.</em></h3><p id="stageDescription">For the everyday trip between where you are and where you need to be.</p><a class="stage-link" id="stageLink" href="rides.html#auto">Explore auto rides <span>↗</span></a></div>
+        <div class="stage-bottom"><span id="stageFooter">Whatever the day looks like, there’s a way to get there.</span><span>Choose a ride to see it in motion.</span></div>
+        <span class="stage-vertical">A closer look at each ride</span>
+      </div>
+    </div>
+    <div class="ride-mode-bar section-shell" role="tablist" aria-label="Choose a ride type">
+      <button type="button" class="ride-mode" data-mode="bike" role="tab" aria-selected="false"><span class="mode-index">01</span><span class="mode-name">Bike</span><span class="mode-description">Made for short trips</span><span class="mode-arrow">↗</span></button>
+      <button type="button" class="ride-mode is-active" data-mode="auto" role="tab" aria-selected="true"><span class="mode-index">02</span><span class="mode-name">Auto</span><span class="mode-description">Your everyday ride</span><span class="mode-arrow">↗</span></button>
+      <button type="button" class="ride-mode" data-mode="taxi" role="tab" aria-selected="false"><span class="mode-index">03</span><span class="mode-name">Taxi</span><span class="mode-description">More room to relax</span><span class="mode-arrow">↗</span></button>
+    </div>
+    <div class="ride-disclaimer section-shell"><span class="live-dot"></span> Ride categories are planned features. Booking availability, fares and service areas will be announced at launch.</div>
+  </section>
+
+  <section class="scroll-story" id="story">
+    <div class="story-heading section-shell"><p class="eyebrow reveal"><span class="eyebrow-rule"></span> 03 / Make the journey part of the day</p><h2 class="display-heading reveal">Go from<br><em>here to there.</em><br>Stay in your day.</h2></div>
+    <div class="story-layout">
+      <div class="story-visual-col"><div class="story-visual" id="storyVisual">
+        <div class="story-visual-image" id="storyImage" style="background-image:url('https://images.pexels.com/videos/34394431/pexels-photo-34394431.jpeg?auto=compress&cs=tinysrgb&w=1600')"></div><video class="story-visual-video" id="storyVideo" muted loop playsinline preload="none" poster="https://images.pexels.com/videos/34394431/pexels-photo-34394431.jpeg?auto=compress&cs=tinysrgb&w=1600"></video>
+        <div class="story-visual-shade"></div>
+        <span class="story-mark">T<span>.</span></span><span class="story-index" id="storyIndex">Bike rides</span>
+        <div class="story-quote" id="storyQuote">Everyday moves.<br><em>Made simpler.</em></div>
+        <span class="story-credit">A journey for every kind of day</span>
+      </div></div>
+      <div class="story-chapters">
+        <article class="story-chapter is-current" data-story="0" data-image="https://images.pexels.com/videos/34394431/pexels-photo-34394431.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/34394431/14571126_3840_2160_60fps.mp4" data-quote="Everyday moves.|Made simpler." data-index="Bike rides"><span class="chapter-number">01</span><div><p class="eyebrow">For when time is tight</p><h3>When you need<br>to get going.</h3><p>For a quick trip across town, a busy morning or getting through traffic with a little less fuss.</p><a href="rides.html#bike" class="line-link">Meet the bike ride <span>↗</span></a></div></article>
+        <article class="story-chapter" data-story="1" data-image="https://images.pexels.com/videos/35298890/pexels-photo-35298890.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/35298890/14955862_3840_2160_30fps.mp4" data-quote="The everyday.|In good hands." data-index="Auto rides"><span class="chapter-number">02</span><div><p class="eyebrow">The everyday run</p><h3>For all the<br>in-between.</h3><p>For errands, work, the market or that familiar trip across town.</p><a href="rides.html#auto" class="line-link">Meet the auto ride <span>↗</span></a></div></article>
+        <article class="story-chapter" data-story="2" data-image="https://images.pexels.com/videos/18616134/pexels-photo-18616134.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/18616134/18616134-uhd_3840_2160_25fps.mp4" data-quote="Take the long way.|Feel at ease." data-index="Taxi rides"><span class="chapter-number">03</span><div><p class="eyebrow">When you want more room</p><h3>Settle in.<br>Enjoy the ride.</h3><p>For longer journeys, trips with company or those days when a little extra room helps.</p><a href="rides.html#taxi" class="line-link">Meet the taxi ride <span>↗</span></a></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifesto-band">
+    <div class="manifesto-image" role="img" aria-label="Traffic moving through a city at night"></div>
+    <div class="manifesto-band-shade"></div>
+    <div class="manifesto-band-top"><span>04 — What matters to us</span><span>People first, at every turn.</span></div>
+    <div class="manifesto-band-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> The ride is part of the day</p><h2>Less time figuring it out.<br><em>More time</em> for what matters.</h2><a href="safety.html" class="circle-cta circle-cta-light"><span>Why we care</span><b>↗</b></a></div>
+    <div class="manifesto-band-foot"><span>Knowing what to expect makes a difference.</span><span>Safety and trust come first.</span></div>
+  </section>
+
+  <section class="how-section section-shell" id="how">
+    <div class="how-title"><p class="eyebrow reveal"><span class="eyebrow-rule"></span> 05 / How it works</p><h2 class="display-heading reveal">Plan your trip.<br><em>Get on with your day.</em></h2><p class="how-intro reveal">When TREVGO launches, the idea is simple: choose where you’re going, pick the ride that suits you and keep up with your trip.</p></div>
+    <div class="how-steps">
+      <article class="how-step reveal"><span class="step-count">01 / Start</span><div><h3>Set your destination.</h3><p>Add your pickup and destination to see which ride options are planned for your area.</p></div><span class="step-symbol">↘</span></article>
+      <article class="how-step reveal"><span class="step-count">02 / Choose</span><div><h3>Pick your way there.</h3><p>Choose the option that suits your trip and check the details before you book.</p></div><span class="step-symbol">↘</span></article>
+      <article class="how-step reveal"><span class="step-count">03 / Go</span><div><h3>Move through your day.</h3><p>See your trip details in the app and follow along as you go.</p></div><span class="step-symbol">↗</span></article>
+    </div>
+  </section>
+
+  <section class="partner-film" id="partners">
+    <div class="partner-video-wrap"><video class="deferred-film" muted loop playsinline preload="none" data-src="https://videos.pexels.com/video-files/34394431/14571126_3840_2160_60fps.mp4" poster="https://images.pexels.com/videos/34394431/pexels-photo-34394431.jpeg?auto=compress&cs=tinysrgb&w=1800"></video></div>
+    <div class="partner-darken"></div><div class="partner-overline"><span>For the people who keep us moving</span><span>A road ahead, together</span></div>
+    <div class="partner-content"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> Ready for a new route?</p><h2>Your next mile<br><em>starts here.</em></h2><p>Interested in driving with TREVGO? Get in touch and we’ll let you know when partner sign-ups open near you.</p><a class="button button-cream" href="contact.html?subject=Driver%20partner%20enquiry">Drive with TREVGO <span>↗</span></a></div>
+    <div class="partner-bottom"><span>Driver-partner updates</span><span>We’ll share local updates as launch gets closer.</span></div>
+  </section>
+
+  <section class="final-cta section-shell" id="updates"><div class="final-cta-top"><span>From the first stop to the last</span><span>Your next move starts here. ↗</span></div><h2 class="display-heading reveal">Where will<br><em>today take you?</em></h2><div class="final-cta-bottom"><p>Want to be among the first to hear about launch? Get in touch and we’ll keep you posted.</p><a href="contact.html?subject=Launch%20updates" class="button button-dark">Stay in the loop <span>↗</span></a></div></section>
+</main>
+<footer class="site-footer"><div class="footer-main"><a class="footer-wordmark" href="index.html">TREVGO<span>®</span></a><p>Move with the city.</p><a class="footer-top" href="#top">Back to the top ↑</a></div><div class="footer-links"><div><span>Explore</span><a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="about.html">Why TREVGO</a><a href="safety.html">Safety</a></div><div><span>Come along</span><a href="#partners">Drive with us</a><a href="contact.html">Contact</a><a href="contact.html?subject=Launch%20updates">Launch updates</a></div><div><span>Good to know</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refund.html">Refunds & cancellations</a></div><div class="footer-note"><span>Made for the way your day moves.</span><p>We’re getting TREVGO ready for launch. The rides on this site show what we’re working towards; bookings aren’t open yet.</p><small>© <span id="currentYear">2026</span> TREVGO. All rights reserved.</small></div></div></footer>
+<script src="script.js"></script>
+</body>
+</html>
