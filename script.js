@@ -79,11 +79,13 @@
     }
   };
   const rideStage = $('#rideStage');
-  const rideVideo = $('#rideVideo');
+  const rideVideos = [$('#rideVideo'), $('#rideVideoNext')].filter(Boolean);
+  let activeRideVideoIndex = 0;
   const rideImage = $('#rideStageImage');
   const modeButtons = $$('.ride-mode');
   let currentMode = 'auto';
   let rideVideoTimer = null;
+  let rideSwapToken = 0;
   const setRideMode = (mode, playClip = true) => {
     const item = rideData[mode];
     if (!item || !rideStage || !rideImage) return;
@@ -112,22 +114,61 @@
     } else {
       window.requestAnimationFrame(() => window.requestAnimationFrame(() => rideStage.classList.remove('is-changing')));
     }
-    if (rideVideo) {
-      rideVideo.classList.remove('is-playing');
-      rideVideo.pause();
-      rideVideo.removeAttribute('src');
-      rideVideo.load();
+    if (rideVideos.length) {
       if (rideVideoTimer) window.clearTimeout(rideVideoTimer);
-      if (playClip && !reducedMotion) {
-        rideVideoTimer = window.setTimeout(() => {
-          if (currentMode !== mode) return;
-          rideVideo.src = item.video;
-          rideVideo.load();
-          const playPromise = rideVideo.play();
-          if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
-          rideVideo.addEventListener('playing', () => rideVideo.classList.add('is-playing'), { once: true });
-        }, 140);
+      const token = ++rideSwapToken;
+      if (reducedMotion || !playClip) {
+        rideVideos.forEach(video => {
+          video.classList.remove('is-playing', 'is-fading-out');
+          video.pause();
+          video.removeAttribute('src');
+          video.load();
+        });
+        return;
       }
+      // Load the next clip on the inactive layer. The current clip stays visible
+      // until the new one is actually playing, avoiding a blank frame/network wait.
+      const nextIndex = activeRideVideoIndex === 0 ? 1 : 0;
+      const nextVideo = rideVideos[nextIndex];
+      const currentVideo = rideVideos[activeRideVideoIndex];
+      nextVideo.classList.remove('is-playing', 'is-fading-out');
+      nextVideo.pause();
+      nextVideo.removeAttribute('src');
+      nextVideo.poster = item.poster;
+      nextVideo.preload = 'auto';
+      nextVideo.src = item.video;
+      nextVideo.load();
+      const onPlaying = () => {
+        if (token !== rideSwapToken || currentMode !== mode) {
+          nextVideo.pause();
+          return;
+        }
+        nextVideo.classList.add('is-playing');
+        currentVideo.classList.remove('is-playing');
+        currentVideo.classList.add('is-fading-out');
+        activeRideVideoIndex = nextIndex;
+        window.setTimeout(() => {
+          if (token !== rideSwapToken) return;
+          currentVideo.classList.remove('is-fading-out');
+          currentVideo.pause();
+          currentVideo.removeAttribute('src');
+          currentVideo.load();
+        }, 760);
+      };
+      nextVideo.addEventListener('playing', onPlaying, { once: true });
+      nextVideo.addEventListener('error', () => {
+        if (token === rideSwapToken) nextVideo.classList.remove('is-playing');
+      }, { once: true });
+      rideVideoTimer = window.setTimeout(() => {
+        if (token !== rideSwapToken || currentMode !== mode) return;
+        const playPromise = nextVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {
+            // Keep the currently visible clip/poster if the next clip cannot autoplay.
+            if (token === rideSwapToken) nextVideo.classList.remove('is-playing');
+          });
+        }
+      }, 20);
     }
   };
   modeButtons.forEach(button => {
@@ -140,52 +181,139 @@
       next.focus(); setRideMode(next.dataset.mode, true);
     });
   });
-  if (modeButtons.length) setRideMode('auto', false);
+  if (modeButtons.length) setRideMode('auto', true);
 
-  // Scroll-controlled scene transitions: the image stays pinned while the story changes.
+  // Story films use one persistent video element per chapter. Scroll position only
+  // selects the active chapter; it never replaces a playing element's source.
   const storyChapters = $$('.story-chapter');
   const storyImage = $('#storyImage');
   const storyVisual = $('#storyVisual');
-  const storyVideo = $('#storyVideo');
+  const storySection = $('#story');
+  const storyVideos = storyVisual ? $$('[data-story-video]', storyVisual) : [];
+  const storyVideoByIndex = new Map(storyVideos.map(video => [Number(video.dataset.storyVideo), video]));
   if (storyChapters.length && storyImage && storyVisual) {
     let activeStory = -1;
+    let pendingStoryTimer = null;
+    let storyTransitionToken = 0;
+    let storyScrollFrame = null;
+
     const activateStory = chapter => {
       const index = Number(chapter.dataset.story);
       if (index === activeStory) return;
       activeStory = index;
+      const token = ++storyTransitionToken;
+      if (pendingStoryTimer !== null) window.clearTimeout(pendingStoryTimer);
       storyChapters.forEach(node => node.classList.toggle('is-current', node === chapter));
       storyVisual.classList.add('is-changing');
-      window.setTimeout(() => {
+
+      // Keep the current frame playing until the next chapter's already-loaded
+      // clip is ready. Each clip's src is assigned only once, so scrolling can
+      // pause/resume it but cannot restart it from the beginning.
+      pendingStoryTimer = window.setTimeout(() => {
+        pendingStoryTimer = null;
+        if (token !== storyTransitionToken || index !== activeStory) return;
+
         storyImage.style.backgroundImage = `url("${chapter.dataset.image}")`;
-        $('#storyIndex').textContent = chapter.dataset.index;
+        const storyIndex = $('#storyIndex');
+        const storyQuote = $('#storyQuote');
+        if (storyIndex) storyIndex.textContent = chapter.dataset.index;
         const words = (chapter.dataset.quote || '').split('|');
-        $('#storyQuote').innerHTML = `${words[0] || ''}<br><em>${words[1] || ''}</em>`;
-        storyVisual.classList.remove('is-changing');
-        if (storyVideo) {
-          storyVideo.classList.remove('is-playing');
-          storyVideo.pause();
-          storyVideo.removeAttribute('src');
-          storyVideo.poster = chapter.dataset.image || '';
-          storyVideo.load();
-          if (!reducedMotion && chapter.dataset.video) {
-            storyVideo.src = chapter.dataset.video;
-            storyVideo.load();
-            const playPromise = storyVideo.play();
-            if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
-            storyVideo.addEventListener('playing', () => storyVideo.classList.add('is-playing'), { once: true });
+        if (storyQuote) storyQuote.innerHTML = `${words[0] || ''}<br><em>${words[1] || ''}</em>`;
+
+        const targetVideo = storyVideoByIndex.get(index);
+        if (reducedMotion || !targetVideo || !chapter.dataset.video) {
+          storyVideos.forEach(video => {
+            video.classList.remove('is-playing');
+            video.pause();
+          });
+          storyVisual.classList.remove('is-changing');
+          return;
+        }
+
+        if (!targetVideo.dataset.videoLoaded) {
+          targetVideo.src = chapter.dataset.video;
+          targetVideo.dataset.videoLoaded = 'true';
+          targetVideo.load();
+        }
+
+        const finishVideoSwitch = () => {
+          if (token !== storyTransitionToken || index !== activeStory) {
+            if (index !== activeStory) targetVideo.pause();
+            return;
+          }
+          storyVideos.forEach(video => {
+            if (video === targetVideo) {
+              video.classList.add('is-playing');
+            } else {
+              video.classList.remove('is-playing');
+              video.pause(); // Preserve currentTime for a later resume.
+            }
+          });
+          storyVisual.classList.remove('is-changing');
+        };
+
+        if (!targetVideo.paused && targetVideo.readyState >= 2) {
+          finishVideoSwitch();
+        } else {
+          targetVideo.addEventListener('playing', finishVideoSwitch, { once: true });
+          const playPromise = targetVideo.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+              if (token !== storyTransitionToken || index !== activeStory) return;
+              storyVideos.forEach(video => {
+                video.classList.remove('is-playing');
+                if (video !== targetVideo) video.pause();
+              });
+              storyVisual.classList.remove('is-changing');
+            });
           }
         }
-      }, reducedMotion ? 0 : 220);
+      }, reducedMotion ? 0 : 140);
     };
-    if (reducedMotion || !('IntersectionObserver' in window)) {
-      storyChapters.forEach(chapter => chapter.classList.add('is-current'));
-    } else {
-      const storyObserver = new IntersectionObserver(entries => {
-        const candidates = entries.filter(entry => entry.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-        if (candidates[0]) activateStory(candidates[0].target);
-      }, { threshold: [0.2, 0.35, 0.5, 0.65], rootMargin: '-18% 0px -20% 0px' });
-      storyChapters.forEach(chapter => storyObserver.observe(chapter));
-    }
+
+    // Pick the chapter nearest a fixed reading line using live geometry, not the
+    // partial list from IntersectionObserver. This avoids chapter A/B/A flapping
+    // as multiple tall chapters enter and leave the viewport during one scroll.
+    const updateStoryFromScroll = () => {
+      storyScrollFrame = null;
+      const sectionRect = storySection ? storySection.getBoundingClientRect() : null;
+      if (!sectionRect || sectionRect.bottom < 0 || sectionRect.top > window.innerHeight) return;
+
+      const focusY = window.innerWidth <= 900
+        ? window.innerHeight * 0.78
+        : window.innerHeight * 0.52;
+      let candidate = null;
+      let candidateDistance = Infinity;
+      for (const chapter of storyChapters) {
+        const rect = chapter.getBoundingClientRect();
+        const center = rect.top + rect.height * 0.5;
+        const distance = Math.abs(center - focusY);
+        if (distance < candidateDistance) {
+          candidate = chapter;
+          candidateDistance = distance;
+        }
+      }
+      if (!candidate) return;
+
+      if (activeStory >= 0 && Number(candidate.dataset.story) !== activeStory) {
+        const currentChapter = storyChapters.find(node => Number(node.dataset.story) === activeStory);
+        if (currentChapter) {
+          const rect = currentChapter.getBoundingClientRect();
+          const currentDistance = Math.abs(rect.top + rect.height * 0.5 - focusY);
+          // Small hysteresis prevents a sub-pixel bounce at chapter boundaries.
+          if (candidateDistance + 44 >= currentDistance) return;
+        }
+      }
+      activateStory(candidate);
+    };
+
+    const scheduleStoryUpdate = () => {
+      if (storyScrollFrame !== null) return;
+      storyScrollFrame = window.requestAnimationFrame(updateStoryFromScroll);
+    };
+    window.addEventListener('scroll', scheduleStoryUpdate, { passive: true });
+    window.addEventListener('resize', scheduleStoryUpdate, { passive: true });
+    scheduleStoryUpdate();
   }
 
   // Defer secondary film clips until their section is close to the viewport.
