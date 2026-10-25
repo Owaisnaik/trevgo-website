@@ -2,7 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=1024, initial-scale=1, minimum-scale=0.25, maximum-scale=2, user-scalable=yes">
+<script>
+(function(){
+  try {
+    var meta=document.querySelector('meta[name="viewport"]');
+    var screenWidth=(window.screen&&window.screen.width)||window.innerWidth||390;
+    var desktopWidth=1024;
+    if(meta){
+      if(screenWidth < desktopWidth){
+        var scale=Math.max(0.25,Math.min(1,screenWidth/desktopWidth));
+        meta.setAttribute('content','width='+desktopWidth+', initial-scale='+scale.toFixed(4)+', minimum-scale=0.25, maximum-scale=3, user-scalable=yes');
+      } else {
+        meta.setAttribute('content','width=device-width, initial-scale=1, minimum-scale=0.25, maximum-scale=3, user-scalable=yes');
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+<script>
+(function () {
+  try {
+    var viewport = document.querySelector('meta[name="viewport"]');
+    var desktopWidth = 1024;
+    var screenWidth = (window.screen && window.screen.width) || window.innerWidth || 384;
+    var scale = screenWidth >= desktopWidth ? 1 : Math.max(0.25, screenWidth / desktopWidth);
+    if (viewport) viewport.setAttribute('content',
+      'width=' + desktopWidth + ', initial-scale=' + scale.toFixed(3) +
+      ', minimum-scale=0.25, maximum-scale=2, user-scalable=yes');
+  } catch (_) {}
+})();
+</script>
 <meta name="theme-color" content="#111510">
 <meta name="description" content="TREVGO is getting ready to bring bike, auto and taxi rides together in one easier way to get around.">
 <title>TREVGO — Move with the city</title>
@@ -103,19 +133,37 @@ body{font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.008
 .contact-form input,.contact-form textarea,.contact-form select{font-size:15px}
 .form-status{font-size:13px;line-height:1.6}
 
+
+/* Added cinematic road-story slides before section 04 */
+.road-film{height:min(900px,82vw);min-height:620px;position:relative;overflow:hidden;background:#101812;color:#fff;isolation:isolate}
+.road-film-media,.road-film-media video,.road-film-shade{position:absolute;inset:0;width:100%;height:100%}
+.road-film-media video{object-fit:cover;object-position:center;transform:scale(1.015)}
+.road-film-shade{background:linear-gradient(90deg,rgba(8,15,10,.76) 0%,rgba(8,15,10,.35) 52%,rgba(8,15,10,.12) 100%),linear-gradient(0deg,rgba(8,15,10,.45),transparent 35%);z-index:1;pointer-events:none}
+.road-film-top,.road-film-foot{position:absolute;left:var(--page);right:var(--page);display:flex;justify-content:space-between;gap:20px;font:10px var(--mono);letter-spacing:.04em;z-index:2;color:rgba(255,255,255,.78)}
+.road-film-top{top:34px}.road-film-foot{bottom:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.27)}
+.road-film-copy{position:absolute;z-index:2;left:clamp(28px,9vw,138px);top:50%;transform:translateY(-43%);max-width:720px;padding-right:var(--page)}
+.road-film-copy .eyebrow{margin-bottom:28px}.road-film-copy h2,.road-editorial-copy h2{font-size:clamp(64px,9.4vw,138px);letter-spacing:-.09em;line-height:.86;font-weight:550;margin:0 0 27px}.road-film-copy h2 em,.road-editorial-copy h2 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.055em;color:var(--lime)}
+.road-film-copy>p:last-child,.road-editorial-copy>p:not(.eyebrow){font-size:14px;line-height:1.85;max-width:390px;color:rgba(255,255,255,.79);margin:0}
+.road-editorial{display:grid;grid-template-columns:1.05fr .95fr;min-height:720px;background:var(--paper);color:var(--ink);align-items:stretch}
+.road-editorial-image{position:relative;min-height:650px;overflow:hidden;background:#28352b}.road-editorial-image img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;object-position:center 55%;filter:saturate(.88)}
+.road-image-index{position:absolute;left:var(--page);bottom:28px;color:#fff;font:10px var(--mono);text-shadow:0 1px 10px #000}
+.road-editorial-copy{align-self:center;padding:90px clamp(30px,7vw,105px)}.road-editorial-copy .eyebrow{margin-bottom:32px}.road-editorial-copy h2{font-size:clamp(58px,7vw,100px);margin-bottom:28px}.road-editorial-copy h2 em{color:#718d4c}.road-editorial-copy>p:not(.eyebrow){color:#6f7369;max-width:370px}.road-editorial-note{display:flex;align-items:center;gap:11px;margin-top:34px;font:10px var(--mono);color:#5d6558}.road-editorial-note i{display:block;width:7px;height:7px;border-radius:50%;background:var(--lime)}
+@media(max-width:760px){.road-film{height:78svh;min-height:590px;max-height:820px}.road-film-shade{background:linear-gradient(90deg,rgba(8,15,10,.65),rgba(8,15,10,.12)),linear-gradient(0deg,rgba(8,15,10,.48),transparent 52%)}.road-film-top,.road-film-foot{left:22px;right:22px;font-size:8px}.road-film-top{top:22px}.road-film-foot{bottom:20px;gap:12px}.road-film-copy{left:25px;right:15px;top:48%;padding-right:12px}.road-film-copy .eyebrow{margin-bottom:21px}.road-film-copy h2{font-size:clamp(60px,15vw,91px);margin-bottom:22px}.road-film-copy>p:last-child{font-size:12px;max-width:330px}.road-editorial{grid-template-columns:1fr;min-height:0}.road-editorial-image{min-height:105vw;height:105vw;max-height:650px}.road-editorial-copy{padding:70px 25px 78px}.road-editorial-copy .eyebrow{margin-bottom:25px}.road-editorial-copy h2{font-size:clamp(60px,14vw,88px)}.road-editorial-copy>p:not(.eyebrow){font-size:13px}.road-image-index{left:25px;bottom:23px}}
+
+
 </style>
 </head>
 <body class="home">
 <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
 <header class="site-header" id="siteHeader">
-  <a class="wordmark" href="#top" aria-label="TREVGO home">TREVGO<span>®</span></a>
+  <a class="wordmark" href="index.html" aria-label="TREVGO home">TREVGO<span>®</span></a>
   <nav class="desktop-nav" aria-label="Main navigation">
-    <a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="#experience">Why TREVGO</a><a href="#partners">Drive with us</a>
+    <a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="about.html">Why TREVGO</a><a href="#partners">Drive with us</a>
   </nav>
-  <a class="header-cta" href="#updates">Launch updates <span>↗</span></a>
+  <a class="header-cta" href="contact.html?subject=Launch%20updates">Launch updates <span>↗</span></a>
   <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
 </header>
-<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"><a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="#experience">Why TREVGO</a><a href="#partners">Drive with us</a><a href="#updates">Launch updates ↗</a></nav>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"><a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="about.html">Why TREVGO</a><a href="#partners">Drive with us</a><a href="contact.html?subject=Launch%20updates">Launch updates ↗</a></nav>
 <main>
   <section class="cinema-hero" id="top" aria-label="TREVGO introduction">
     <div class="hero-film" aria-hidden="true">
@@ -139,7 +187,7 @@ body{font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.008
     <div class="section-label reveal"><span>Why we’re building TREVGO</span><span>01 — A better way to get around</span></div>
     <div class="intro-layout">
       <h2 class="display-heading reveal">The best part<br>of going <em>somewhere</em><br>is getting there.</h2>
-      <div class="intro-aside reveal"><span class="big-asterisk">✳</span><p>Some days call for a quick ride across town. Other days, you need a little more room. TREVGO is being built for both.</p><a class="line-link" href="#experience">A little about us <span>↗</span></a></div>
+      <div class="intro-aside reveal"><span class="big-asterisk">✳</span><p>Some days call for a quick ride across town. Other days, you need a little more room. TREVGO is being built for both.</p><a class="line-link" href="about.html">A little about us <span>↗</span></a></div>
     </div>
     <div class="intro-bottom"><span>Made for the everyday.</span><span>Ready for what’s next. <b>↗</b></span></div>
   </section>
@@ -157,7 +205,7 @@ body{font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.008
         <video class="ride-stage-video ride-stage-video-next" id="rideVideoNext" muted loop playsinline preload="none" aria-label="Ride footage transition preview"></video>
         <div class="ride-stage-shade"></div>
         <div class="stage-top"><span id="stageIndex">02.02</span><span id="stageMicro">For everyday trips</span><span>A closer look at your ride</span></div>
-        <div class="stage-copy"><p class="eyebrow eyebrow-light" id="stageKicker">Your everyday ride</p><h3 id="stageTitle">The city,<br><em>within reach.</em></h3><p id="stageDescription">For the everyday trip between where you are and where you need to be.</p><a class="stage-link" id="stageLink" href="#ride-explorer">Explore auto rides <span>↗</span></a></div>
+        <div class="stage-copy"><p class="eyebrow eyebrow-light" id="stageKicker">Your everyday ride</p><h3 id="stageTitle">The city,<br><em>within reach.</em></h3><p id="stageDescription">For the everyday trip between where you are and where you need to be.</p><a class="stage-link" id="stageLink" href="rides.html#auto">Explore auto rides <span>↗</span></a></div>
         <div class="stage-bottom"><span id="stageFooter">Whatever the day looks like, there’s a way to get there.</span><span>Choose a ride to see it in motion.</span></div>
         <span class="stage-vertical">A closer look at each ride</span>
       </div>
@@ -184,18 +232,39 @@ body{font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.008
         <span class="story-credit">A journey for every kind of day</span>
       </div></div>
       <div class="story-chapters">
-        <article class="story-chapter is-current" data-story="0" data-image="https://images.pexels.com/videos/34394878/pexels-photo-34394878.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/34394878/14570947_3840_2160_60fps.mp4" data-quote="Everyday moves.|Made simpler." data-index="Bike rides"><span class="chapter-number">01</span><div><p class="eyebrow">For when time is tight</p><h3>When you need<br>to get going.</h3><p>For a quick trip across town, a busy morning or getting through traffic with a little less fuss.</p><a href="#ride-explorer" class="line-link">Meet the bike ride <span>↗</span></a></div></article>
-        <article class="story-chapter" data-story="1" data-image="https://images.pexels.com/videos/34162593/pexels-photo-34162593.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/34162593/14483570_1920_1080_30fps.mp4" data-quote="The everyday.|In good hands." data-index="Auto rides"><span class="chapter-number">02</span><div><p class="eyebrow">The everyday run</p><h3>For all the<br>in-between.</h3><p>For errands, work, the market or that familiar trip across town.</p><a href="#ride-explorer" class="line-link">Meet the auto ride <span>↗</span></a></div></article>
-        <article class="story-chapter" data-story="2" data-image="https://images.pexels.com/videos/18598197/pexels-photo-18598197.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/18598197/18598197-uhd_3840_2160_24fps.mp4" data-quote="Take the long way.|Feel at ease." data-index="Taxi rides"><span class="chapter-number">03</span><div><p class="eyebrow">When you want more room</p><h3>Settle in.<br>Enjoy the ride.</h3><p>For longer journeys, trips with company or those days when a little extra room helps.</p><a href="#ride-explorer" class="line-link">Meet the taxi ride <span>↗</span></a></div></article>
+        <article class="story-chapter is-current" data-story="0" data-image="https://images.pexels.com/videos/34394878/pexels-photo-34394878.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/34394878/14570947_3840_2160_60fps.mp4" data-quote="Everyday moves.|Made simpler." data-index="Bike rides"><span class="chapter-number">01</span><div><p class="eyebrow">For when time is tight</p><h3>When you need<br>to get going.</h3><p>For a quick trip across town, a busy morning or getting through traffic with a little less fuss.</p><a href="rides.html#bike" class="line-link">Meet the bike ride <span>↗</span></a></div></article>
+        <article class="story-chapter" data-story="1" data-image="https://images.pexels.com/videos/34162593/pexels-photo-34162593.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/34162593/14483570_1920_1080_30fps.mp4" data-quote="The everyday.|In good hands." data-index="Auto rides"><span class="chapter-number">02</span><div><p class="eyebrow">The everyday run</p><h3>For all the<br>in-between.</h3><p>For errands, work, the market or that familiar trip across town.</p><a href="rides.html#auto" class="line-link">Meet the auto ride <span>↗</span></a></div></article>
+        <article class="story-chapter" data-story="2" data-image="https://images.pexels.com/videos/18598197/pexels-photo-18598197.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/18598197/18598197-uhd_3840_2160_24fps.mp4" data-quote="Take the long way.|Feel at ease." data-index="Taxi rides"><span class="chapter-number">03</span><div><p class="eyebrow">When you want more room</p><h3>Settle in.<br>Enjoy the ride.</h3><p>For longer journeys, trips with company or those days when a little extra room helps.</p><a href="rides.html#taxi" class="line-link">Meet the taxi ride <span>↗</span></a></div></article>
       </div>
     </div>
   </section>
 
-  <section class="manifesto-band" id="approach">
+  <section class="road-film road-film-one" aria-label="The city in motion">
+    <div class="road-film-media"><video class="deferred-film" muted loop playsinline preload="metadata" poster="assets/city-auto.webp" data-src="assets/city-flow.mp4"></video></div>
+    <div class="road-film-shade"></div>
+    <div class="road-film-top"><span>STREET NOTES / 01</span><span>Everyday, everywhere</span></div>
+    <div class="road-film-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> The city never stands still</p><h2>Every turn has<br>a <em>story.</em></h2><p>From the first ride of the morning to the last trip home, life keeps moving. TREVGO is being built to move with it.</p></div>
+    <div class="road-film-foot"><span>Made for the rhythm of real life.</span><span>Keep moving <b>↗</b></span></div>
+  </section>
+
+  <section class="road-editorial" aria-label="The familiar way forward">
+    <div class="road-editorial-image"><img src="assets/yellow-taxi.webp" alt="A classic yellow city taxi moving through traffic" loading="lazy"><span class="road-image-index">02 / THE FAMILIAR</span></div>
+    <div class="road-editorial-copy"><p class="eyebrow"><span class="eyebrow-rule"></span> A city of a thousand routes</p><h2>Somewhere<br>to be.<br><em>A way to get there.</em></h2><p>Quick errands, long days, plans that change along the way. The right ride should feel like one less thing to figure out.</p><span class="road-editorial-note"><i></i> Bike · Auto · Taxi</span></div>
+  </section>
+
+  <section class="road-film road-film-three" aria-label="The road ahead">
+    <div class="road-film-media"><video class="deferred-film" muted loop playsinline preload="metadata" poster="assets/rain-auto.webp" data-src="assets/road-ahead.mp4"></video></div>
+    <div class="road-film-shade"></div>
+    <div class="road-film-top"><span>STREET NOTES / 03</span><span>For the road ahead</span></div>
+    <div class="road-film-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> Wherever the day leads</p><h2>More of life.<br><em>Less getting there.</em></h2><p>We believe the journey should fit around your day—not the other way around. That’s the idea behind TREVGO.</p></div>
+    <div class="road-film-foot"><span>Thoughtfully made for everyday journeys.</span><span>One city. Many ways forward.</span></div>
+  </section>
+
+  <section class="manifesto-band">
     <div class="manifesto-image" role="img" aria-label="Traffic moving through a city at night"></div>
     <div class="manifesto-band-shade"></div>
     <div class="manifesto-band-top"><span>04 — What matters to us</span><span>People first, at every turn.</span></div>
-    <div class="manifesto-band-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> The ride is part of the day</p><h2>Less time figuring it out.<br><em>More time</em> for what matters.</h2><a href="#approach" class="circle-cta circle-cta-light"><span>Why we care</span><b>↗</b></a></div>
+    <div class="manifesto-band-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> The ride is part of the day</p><h2>Less time figuring it out.<br><em>More time</em> for what matters.</h2><a href="safety.html" class="circle-cta circle-cta-light"><span>Why we care</span><b>↗</b></a></div>
     <div class="manifesto-band-foot"><span>Knowing what to expect makes a difference.</span><span>Safety and trust come first.</span></div>
   </section>
 
@@ -211,13 +280,13 @@ body{font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.008
   <section class="partner-film" id="partners">
     <div class="partner-video-wrap"><video class="deferred-film" muted loop playsinline preload="none" data-src="https://videos.pexels.com/video-files/34394431/14571126_3840_2160_60fps.mp4" poster="https://images.pexels.com/videos/34394431/pexels-photo-34394431.jpeg?auto=compress&cs=tinysrgb&w=1800"></video></div>
     <div class="partner-darken"></div><div class="partner-overline"><span>For the people who keep us moving</span><span>A road ahead, together</span></div>
-    <div class="partner-content"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> Ready for a new route?</p><h2>Your next mile<br><em>starts here.</em></h2><p>Interested in driving with TREVGO? Get in touch and we’ll let you know when partner sign-ups open near you.</p><a class="button button-cream" href="#partners">Drive with TREVGO <span>↗</span></a></div>
+    <div class="partner-content"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> Ready for a new route?</p><h2>Your next mile<br><em>starts here.</em></h2><p>Interested in driving with TREVGO? Get in touch and we’ll let you know when partner sign-ups open near you.</p><a class="button button-cream" href="contact.html?subject=Driver%20partner%20enquiry">Drive with TREVGO <span>↗</span></a></div>
     <div class="partner-bottom"><span>Driver-partner updates</span><span>We’ll share local updates as launch gets closer.</span></div>
   </section>
 
-  <section class="final-cta section-shell" id="updates"><div class="final-cta-top"><span>From the first stop to the last</span><span>Your next move starts here. ↗</span></div><h2 class="display-heading reveal">Where will<br><em>today take you?</em></h2><div class="final-cta-bottom"><p>Want to be among the first to hear about launch? Get in touch and we’ll keep you posted.</p><a href="#updates" class="button button-dark">Stay in the loop <span>↗</span></a></div></section>
+  <section class="final-cta section-shell" id="updates"><div class="final-cta-top"><span>From the first stop to the last</span><span>Your next move starts here. ↗</span></div><h2 class="display-heading reveal">Where will<br><em>today take you?</em></h2><div class="final-cta-bottom"><p>Want to be among the first to hear about launch? Get in touch and we’ll keep you posted.</p><a href="contact.html?subject=Launch%20updates" class="button button-dark">Stay in the loop <span>↗</span></a></div></section>
 </main>
-<footer class="site-footer" id="site-details"><div class="footer-main"><a class="footer-wordmark" href="#top">TREVGO<span>®</span></a><p>Move with the city.</p><a class="footer-top" href="#top">Back to the top ↑</a></div><div class="footer-links"><div><span>Explore</span><a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="#experience">Why TREVGO</a><a href="#approach">Safety</a></div><div><span>Come along</span><a href="#partners">Drive with us</a><a href="#updates">Contact</a><a href="#updates">Launch updates</a></div><div><span>Good to know</span><a href="#site-details">Privacy</a><a href="#site-details">Terms</a><a href="#site-details">Refunds & cancellations</a></div><div class="footer-note"><span>Made for the way your day moves.</span><p>We’re getting TREVGO ready for launch. The rides on this site show what we’re working towards; bookings aren’t open yet.</p><small>© <span id="currentYear">2026</span> TREVGO. All rights reserved.</small></div></div></footer>
+<footer class="site-footer"><div class="footer-main"><a class="footer-wordmark" href="index.html">TREVGO<span>®</span></a><p>Move with the city.</p><a class="footer-top" href="#top">Back to the top ↑</a></div><div class="footer-links"><div><span>Explore</span><a href="#experience">The experience</a><a href="#ride-explorer">Ride options</a><a href="about.html">Why TREVGO</a><a href="safety.html">Safety</a></div><div><span>Come along</span><a href="#partners">Drive with us</a><a href="contact.html">Contact</a><a href="contact.html?subject=Launch%20updates">Launch updates</a></div><div><span>Good to know</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="refund.html">Refunds & cancellations</a></div><div class="footer-note"><span>Made for the way your day moves.</span><p>We’re getting TREVGO ready for launch. The rides on this site show what we’re working towards; bookings aren’t open yet.</p><small>© <span id="currentYear">2026</span> TREVGO. All rights reserved.</small></div></div></footer>
 <script>
 (() => {
   'use strict';
@@ -335,22 +404,61 @@ body{font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.008
     } else {
       window.requestAnimationFrame(() => window.requestAnimationFrame(() => rideStage.classList.remove('is-changing')));
     }
-    if (rideVideo) {
-      rideVideo.classList.remove('is-playing');
-      rideVideo.pause();
-      rideVideo.removeAttribute('src');
-      rideVideo.load();
+    if (rideVideos.length) {
       if (rideVideoTimer) window.clearTimeout(rideVideoTimer);
-      if (playClip && !reducedMotion) {
-        rideVideoTimer = window.setTimeout(() => {
-          if (currentMode !== mode) return;
-          rideVideo.src = item.video;
-          rideVideo.load();
-          const playPromise = rideVideo.play();
-          if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
-          rideVideo.addEventListener('playing', () => rideVideo.classList.add('is-playing'), { once: true });
-        }, 140);
+      const token = ++rideSwapToken;
+      if (reducedMotion || !playClip) {
+        rideVideos.forEach(video => {
+          video.classList.remove('is-playing', 'is-fading-out');
+          video.pause();
+          video.removeAttribute('src');
+          video.load();
+        });
+        return;
       }
+      // Load the next clip on the inactive layer. The current clip stays visible
+      // until the new one is actually playing, avoiding a blank frame/network wait.
+      const nextIndex = activeRideVideoIndex === 0 ? 1 : 0;
+      const nextVideo = rideVideos[nextIndex];
+      const currentVideo = rideVideos[activeRideVideoIndex];
+      nextVideo.classList.remove('is-playing', 'is-fading-out');
+      nextVideo.pause();
+      nextVideo.removeAttribute('src');
+      nextVideo.poster = item.poster;
+      nextVideo.preload = 'auto';
+      nextVideo.src = item.video;
+      nextVideo.load();
+      const onPlaying = () => {
+        if (token !== rideSwapToken || currentMode !== mode) {
+          nextVideo.pause();
+          return;
+        }
+        nextVideo.classList.add('is-playing');
+        currentVideo.classList.remove('is-playing');
+        currentVideo.classList.add('is-fading-out');
+        activeRideVideoIndex = nextIndex;
+        window.setTimeout(() => {
+          if (token !== rideSwapToken) return;
+          currentVideo.classList.remove('is-fading-out');
+          currentVideo.pause();
+          currentVideo.removeAttribute('src');
+          currentVideo.load();
+        }, 760);
+      };
+      nextVideo.addEventListener('playing', onPlaying, { once: true });
+      nextVideo.addEventListener('error', () => {
+        if (token === rideSwapToken) nextVideo.classList.remove('is-playing');
+      }, { once: true });
+      rideVideoTimer = window.setTimeout(() => {
+        if (token !== rideSwapToken || currentMode !== mode) return;
+        const playPromise = nextVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {
+            // Keep the currently visible clip/poster if the next clip cannot autoplay.
+            if (token === rideSwapToken) nextVideo.classList.remove('is-playing');
+          });
+        }
+      }, 20);
     }
   };
   modeButtons.forEach(button => {
@@ -579,14 +687,10 @@ body{font-family:var(--font);font-size:16px;line-height:1.7;letter-spacing:-.008
       const topic = String(data.get('topic') || 'General enquiry').trim();
       const message = String(data.get('message') || '').trim();
       const subject = `[TREVGO website] ${topic}`;
-      const body = `Name: ${name}
-Email: ${email}
-Topic: ${topic}
-
-${message}`;
+      const body = `Name: ${name}\nEmail: ${email}\nTopic: ${topic}\n\n${message}`;
       const status = $('#formStatus');
       if (status) status.textContent = 'Your email app should open with this message ready to send. Nothing has been sent by the website.';
-      window.location.href = `mailto:hello@trevgo.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:trevgosupport@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
   }
 

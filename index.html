@@ -2,7 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=1024, initial-scale=1, minimum-scale=0.25, maximum-scale=2, user-scalable=yes">
+<script>
+(function(){
+  try {
+    var meta=document.querySelector('meta[name="viewport"]');
+    var screenWidth=(window.screen&&window.screen.width)||window.innerWidth||390;
+    var desktopWidth=1024;
+    if(meta){
+      if(screenWidth < desktopWidth){
+        var scale=Math.max(0.25,Math.min(1,screenWidth/desktopWidth));
+        meta.setAttribute('content','width='+desktopWidth+', initial-scale='+scale.toFixed(4)+', minimum-scale=0.25, maximum-scale=3, user-scalable=yes');
+      } else {
+        meta.setAttribute('content','width=device-width, initial-scale=1, minimum-scale=0.25, maximum-scale=3, user-scalable=yes');
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+<script>
+(function () {
+  try {
+    var viewport = document.querySelector('meta[name="viewport"]');
+    var desktopWidth = 1024;
+    var screenWidth = (window.screen && window.screen.width) || window.innerWidth || 384;
+    var scale = screenWidth >= desktopWidth ? 1 : Math.max(0.25, screenWidth / desktopWidth);
+    if (viewport) viewport.setAttribute('content',
+      'width=' + desktopWidth + ', initial-scale=' + scale.toFixed(3) +
+      ', minimum-scale=0.25, maximum-scale=2, user-scalable=yes');
+  } catch (_) {}
+})();
+</script>
 <meta name="theme-color" content="#111510">
 <meta name="description" content="TREVGO is getting ready to bring bike, auto and taxi rides together in one easier way to get around.">
 <title>TREVGO — Move with the city</title>
@@ -96,6 +126,27 @@
         <article class="story-chapter" data-story="2" data-image="https://images.pexels.com/videos/18598197/pexels-photo-18598197.jpeg?auto=compress&cs=tinysrgb&w=1600" data-video="https://videos.pexels.com/video-files/18598197/18598197-uhd_3840_2160_24fps.mp4" data-quote="Take the long way.|Feel at ease." data-index="Taxi rides"><span class="chapter-number">03</span><div><p class="eyebrow">When you want more room</p><h3>Settle in.<br>Enjoy the ride.</h3><p>For longer journeys, trips with company or those days when a little extra room helps.</p><a href="rides.html#taxi" class="line-link">Meet the taxi ride <span>↗</span></a></div></article>
       </div>
     </div>
+  </section>
+
+  <section class="road-film road-film-one" aria-label="The city in motion">
+    <div class="road-film-media"><video class="deferred-film" muted loop playsinline preload="metadata" poster="assets/city-auto.webp" data-src="assets/city-flow.mp4"></video></div>
+    <div class="road-film-shade"></div>
+    <div class="road-film-top"><span>STREET NOTES / 01</span><span>Everyday, everywhere</span></div>
+    <div class="road-film-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> The city never stands still</p><h2>Every turn has<br>a <em>story.</em></h2><p>From the first ride of the morning to the last trip home, life keeps moving. TREVGO is being built to move with it.</p></div>
+    <div class="road-film-foot"><span>Made for the rhythm of real life.</span><span>Keep moving <b>↗</b></span></div>
+  </section>
+
+  <section class="road-editorial" aria-label="The familiar way forward">
+    <div class="road-editorial-image"><img src="assets/yellow-taxi.webp" alt="A classic yellow city taxi moving through traffic" loading="lazy"><span class="road-image-index">02 / THE FAMILIAR</span></div>
+    <div class="road-editorial-copy"><p class="eyebrow"><span class="eyebrow-rule"></span> A city of a thousand routes</p><h2>Somewhere<br>to be.<br><em>A way to get there.</em></h2><p>Quick errands, long days, plans that change along the way. The right ride should feel like one less thing to figure out.</p><span class="road-editorial-note"><i></i> Bike · Auto · Taxi</span></div>
+  </section>
+
+  <section class="road-film road-film-three" aria-label="The road ahead">
+    <div class="road-film-media"><video class="deferred-film" muted loop playsinline preload="metadata" poster="assets/rain-auto.webp" data-src="assets/road-ahead.mp4"></video></div>
+    <div class="road-film-shade"></div>
+    <div class="road-film-top"><span>STREET NOTES / 03</span><span>For the road ahead</span></div>
+    <div class="road-film-copy"><p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span> Wherever the day leads</p><h2>More of life.<br><em>Less getting there.</em></h2><p>We believe the journey should fit around your day—not the other way around. That’s the idea behind TREVGO.</p></div>
+    <div class="road-film-foot"><span>Thoughtfully made for everyday journeys.</span><span>One city. Many ways forward.</span></div>
   </section>
 
   <section class="manifesto-band">

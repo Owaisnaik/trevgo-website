@@ -316,20 +316,25 @@
     scheduleStoryUpdate();
   }
 
-  // Defer secondary film clips until their section is close to the viewport.
+  // Load local cinematic clips reliably on mobile and desktop.
+  // Sources are assigned even when IntersectionObserver is unavailable or reduced motion is enabled,
+  // so the local poster/media never remains an empty dark panel.
   const deferredFilms = $$('.deferred-film');
-  const playDeferred = video => {
-    if (!video.dataset.videoLoaded && video.dataset.src && !reducedMotion) {
+  const loadDeferred = video => {
+    if (!video.dataset.videoLoaded && video.dataset.src) {
       video.src = video.dataset.src;
       video.dataset.videoLoaded = 'true';
       video.load();
     }
+  };
+  const playDeferred = video => {
+    loadDeferred(video);
     if (!reducedMotion && video.dataset.videoLoaded) {
       const promise = video.play();
       if (promise && typeof promise.catch === 'function') promise.catch(() => {});
     }
   };
-  if ('IntersectionObserver' in window && !reducedMotion) {
+  if ('IntersectionObserver' in window) {
     const filmObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const video = entry.target;
@@ -337,9 +342,13 @@
         else if (video.dataset.videoLoaded) video.pause();
       });
     }, { rootMargin: '220px 0px', threshold: 0.01 });
-    deferredFilms.forEach(video => filmObserver.observe(video));
+    deferredFilms.forEach(video => {
+      loadDeferred(video);
+      filmObserver.observe(video);
+    });
+  } else {
+    deferredFilms.forEach(video => playDeferred(video));
   }
-
   // Low-amplitude parallax for cinematic stills, disabled on touch/reduced-motion devices.
   if (!reducedMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     const parallaxNodes = $$('.hero-film video, .manifesto-image, .partner-video-wrap video');
@@ -400,7 +409,7 @@
       const body = `Name: ${name}\nEmail: ${email}\nTopic: ${topic}\n\n${message}`;
       const status = $('#formStatus');
       if (status) status.textContent = 'Your email app should open with this message ready to send. Nothing has been sent by the website.';
-      window.location.href = `mailto:hello@trevgo.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:trevgosupport@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
   }
 

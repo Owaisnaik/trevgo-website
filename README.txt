@@ -66,3 +66,8 @@ COPY + MOTION POLISH
 - Added restrained pointer lighting in the hero and ride scene on desktop, softer scene changes, gentle link movement and a subtle rotating accent.
 - Animations respect reduced-motion preferences; phone labels and ride descriptions are larger and easier to read.
 - Open index-standalone.html on Android file previews; it carries its own styles and script.
+
+
+CINEMATIC ROAD-STORY ADDITION
+-----------------------------
+Three editorial scenes have been added immediately before “04 — What matters to us”: two locally hosted, lazily loaded road films and one full-height taxi photograph. The uploaded media has been optimized for web delivery and stored in assets/ so the new sections do not depend on remote image/video hosting. Both index.html and index-standalone.html include the update.
